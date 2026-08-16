@@ -1,0 +1,15 @@
+{
+  "name": "postgresql",
+  "version": "1.0.0",
+  "description": "* Database / Tables / Rows / Columns\r * Data Types\r * Primary Key\r * Foreign Key\r * Constraints\r * `CREATE`\r * `ALTER`\r * `DROP`",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "nodemon": "^3.1.14"
+  }
+}
