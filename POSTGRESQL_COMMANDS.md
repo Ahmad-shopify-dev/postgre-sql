@@ -2179,3 +2179,8 @@ WHERE to_tsvector('english', title) @@ to_tsquery('english', 'PostgreSQL & Datab
 
 
 
+
+
+
+
+
