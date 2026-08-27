@@ -14,19 +14,34 @@ datasource db {
 
 // SIMPLE MODEL OF USER
 model User {
-  id    Int   @id @default(autoincrement())
-  name  String? 
-  email String @unique // SHOULD BE UNIQUE
-  age   Int @default(18)
-  isActive Boolean @default(false)
+  id        Int      @id @default(autoincrement())
+  name      String?
+  email     String   @unique // SHOULD BE UNIQUE
+  age       Int      @default(18)
+  role      Role     @default(USER)
+  isActive  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt // AUTOMATICALLY UPDATED WHEN RECORD IS UPDATED
 
   // RELATIONSHIPS
-  posts Post[] // ONE USER CAN HAVE MANY POSTS
+  posts   Post[] // ONE USER CAN HAVE MANY POSTS
+  profile Profile?
+
+  // SELF RELATIONSHIP (FRIENDSHIP)
+  managerId Int?
+  manager User? @relation("UserManager", fields: [managerId], references: [id])
+  team    User[] @relation("UserManager")
 
   // SEARCHING BY INDEX OR FILTER BY INDEX
   @@index([email])
+}
+
+// 1:1 ROLE FOR USER PROFILE
+model Profile {
+  id     Int    @id @default(autoincrement())
+  bio    String
+  userId Int    @unique // 1:1 relation
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Post {
@@ -38,12 +53,40 @@ model Post {
   updatedAt DateTime @updatedAt
 
   // RELATIONSHIPS
-  authorId Int
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade) // ONE POST BELONGS TO ONE USER
+  authorId       Int
+  author         User           @relation(fields: [authorId], references: [id], onDelete: Cascade) // ONE POST BELONGS TO ONE USER
+  postCategories PostCategory[]
 
   // SEARCHING BY INDEX OR FILTER BY INDEX
   @@index([title])
 }
 
+model Category {
+  id    Int            @id @default(autoincrement())
+  name  String
+  posts PostCategory[]
+}
 
+model PostCategory {
+  postId     Int
+  categoryId Int
+  post       Post     @relation(fields: [postId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
 
+  @@id([postId, categoryId]) // COMPOSITE PRIMARY KEY
+}
+
+// SPECIAL TYPES
+model SysLogs {
+  id        Int      @id @default(autoincrement())
+  metadata  Json // FLEXIBLE JSON PAYLOAD
+  price     Decimal // EXACT PRECISION MONETARY VALUES
+  createdAt DateTime @default(now())
+}
+
+// ENUMS (Fixed allowed options)
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}
