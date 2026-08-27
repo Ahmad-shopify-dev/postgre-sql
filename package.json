@@ -2,14 +2,22 @@
   "name": "postgresql",
   "version": "1.0.0",
   "description": "* Database / Tables / Rows / Columns\r * Data Types\r * Primary Key\r * Foreign Key\r * Constraints\r * `CREATE`\r * `ALTER`\r * `DROP`",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "nodemon": "^3.1.14",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.3.0",
+    "@types/pg": "^8.23.1",
     "dotenv": "^17.4.2",
-    "nodemon": "^3.1.14"
+    "prisma": "^7.9.1"
   }
 }
